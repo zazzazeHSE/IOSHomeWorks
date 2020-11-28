@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="20B29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Author" representedClassName="Author" syncable="YES">
+        <attribute name="email" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="commits" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Commit"/>
+    </entity>
+    <entity name="Commit" representedClassName="Commit" syncable="YES">
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="message" optional="YES" attributeType="String"/>
+        <attribute name="sha" optional="YES" attributeType="String"/>
+        <attribute name="url" attributeType="String"/>
+        <relationship name="author" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Author"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="sha"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <elements>
+        <element name="Commit" positionX="-45" positionY="0" width="128" height="104"/>
+        <element name="Author" positionX="-18" positionY="54" width="128" height="74"/>
+    </elements>
+</model>
