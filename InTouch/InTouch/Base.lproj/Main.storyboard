@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina3_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -13,37 +13,28 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="InTouch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fon-eB-h1Z">
+                                <rect key="frame" x="112.5" y="147" width="95" height="30"/>
+                                <state key="normal" title="Text Message"/>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ways to get in touch" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MAg-Vc-XIt">
-                                <rect key="frame" x="20" y="74" width="374" height="37"/>
+                                <rect key="frame" x="87.5" y="29" width="145.5" height="21"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ue9-RZ-HBI">
-                                <rect key="frame" x="109" y="167" width="187" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="LLm-w1-1k4"/>
-                                </constraints>
+                                <rect key="frame" x="141.5" y="102" width="37" height="30"/>
                                 <state key="normal" title="Email"/>
                                 <connections>
                                     <action selector="sendEmail:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0Jr-2n-Bze"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fon-eB-h1Z">
-                                <rect key="frame" x="117" y="205" width="180" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="RHE-ga-Wv6"/>
-                                </constraints>
-                                <state key="normal" title="Text Message"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NbX-6b-cs4">
-                                <rect key="frame" x="125" y="249" width="165" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="FuW-0f-LMb"/>
-                                </constraints>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NbX-6b-cs4">
+                                <rect key="frame" x="132" y="189" width="56" height="30"/>
                                 <state key="normal" title="Website"/>
                                 <connections>
                                     <action selector="openWebsite:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CAb-Nh-svg"/>
@@ -54,19 +45,15 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="ue9-RZ-HBI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="109" id="36I-ux-bdn"/>
-                            <constraint firstItem="NbX-6b-cs4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="125" id="FGU-3L-lxU"/>
-                            <constraint firstItem="MAg-Vc-XIt" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="HNo-2c-Bam"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ue9-RZ-HBI" secondAttribute="trailing" constant="118" id="Kpw-YX-JzL"/>
-                            <constraint firstItem="ue9-RZ-HBI" firstAttribute="top" secondItem="MAg-Vc-XIt" secondAttribute="bottom" constant="56" id="Pvy-an-C6K"/>
-                            <constraint firstItem="MAg-Vc-XIt" firstAttribute="centerX" secondItem="Fon-eB-h1Z" secondAttribute="centerX" id="QUI-Yu-LWM"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="NbX-6b-cs4" secondAttribute="bottom" constant="583" id="RQz-gw-Jaj"/>
-                            <constraint firstItem="Fon-eB-h1Z" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="117" id="Rv0-Ip-Mtw"/>
-                            <constraint firstItem="NbX-6b-cs4" firstAttribute="top" secondItem="Fon-eB-h1Z" secondAttribute="bottom" constant="14" id="euY-Q6-s8E"/>
-                            <constraint firstItem="Fon-eB-h1Z" firstAttribute="top" secondItem="ue9-RZ-HBI" secondAttribute="bottom" constant="8" id="hOh-tK-a34"/>
-                            <constraint firstItem="MAg-Vc-XIt" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="pKm-OT-O1n"/>
-                            <constraint firstItem="Fon-eB-h1Z" firstAttribute="centerX" secondItem="NbX-6b-cs4" secondAttribute="centerX" id="ubs-IT-Hog"/>
-                            <constraint firstItem="MAg-Vc-XIt" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="ylD-5g-mu2"/>
+                            <constraint firstItem="Fon-eB-h1Z" firstAttribute="top" secondItem="ue9-RZ-HBI" secondAttribute="bottom" constant="15" id="66o-gp-FKo"/>
+                            <constraint firstItem="Fon-eB-h1Z" firstAttribute="centerX" secondItem="MAg-Vc-XIt" secondAttribute="centerX" id="Giv-8n-ypn"/>
+                            <constraint firstItem="ue9-RZ-HBI" firstAttribute="centerX" secondItem="MAg-Vc-XIt" secondAttribute="centerX" id="Iz0-Xk-ONw"/>
+                            <constraint firstItem="NbX-6b-cs4" firstAttribute="centerX" secondItem="MAg-Vc-XIt" secondAttribute="centerX" id="RUG-c2-Tbg"/>
+                            <constraint firstItem="MAg-Vc-XIt" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="SkO-vK-EFC"/>
+                            <constraint firstItem="ue9-RZ-HBI" firstAttribute="top" secondItem="MAg-Vc-XIt" secondAttribute="bottom" constant="52" id="ncO-QP-2Yt"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="NbX-6b-cs4" secondAttribute="bottom" priority="600" constant="599" id="qp3-mE-Tau"/>
+                            <constraint firstItem="MAg-Vc-XIt" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" priority="800" constant="29" id="uvx-1f-gNk"/>
+                            <constraint firstItem="NbX-6b-cs4" firstAttribute="top" secondItem="Fon-eB-h1Z" secondAttribute="bottom" constant="12" id="yc9-Qs-LGW"/>
                         </constraints>
                     </view>
                 </viewController>
