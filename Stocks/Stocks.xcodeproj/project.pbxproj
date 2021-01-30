@@ -13,7 +13,10 @@
 		740221352578261C006D43BE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 740221332578261C006D43BE /* Main.storyboard */; };
 		7402213725782620006D43BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7402213625782620006D43BE /* Assets.xcassets */; };
 		7402213A25782620006D43BE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7402213825782620006D43BE /* LaunchScreen.storyboard */; };
-		7402214425784F42006D43BE /* IextraClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7402214325784F41006D43BE /* IextraClient.swift */; };
+		7402214425784F42006D43BE /* StocksClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7402214325784F41006D43BE /* StocksClient.swift */; };
+		74F377DC25C4B56A00F01DBA /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F377DB25C4B56A00F01DBA /* Stock.swift */; };
+		74F377DF25C4B62400F01DBA /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F377DE25C4B62400F01DBA /* Client.swift */; };
+		74F377E225C4B9AF00F01DBA /* StockPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F377E125C4B9AE00F01DBA /* StockPreview.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,7 +28,10 @@
 		7402213625782620006D43BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7402213925782620006D43BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7402213B25782620006D43BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7402214325784F41006D43BE /* IextraClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IextraClient.swift; sourceTree = "<group>"; };
+		7402214325784F41006D43BE /* StocksClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksClient.swift; sourceTree = "<group>"; };
+		74F377DB25C4B56A00F01DBA /* Stock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
+		74F377DE25C4B62400F01DBA /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		74F377E125C4B9AE00F01DBA /* StockPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockPreview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,14 +64,11 @@
 		7402212C2578261C006D43BE /* Stocks */ = {
 			isa = PBXGroup;
 			children = (
+				74F377E625C58DFE00F01DBA /* Resources */,
+				74F377E525C58DEF00F01DBA /* Views */,
+				74F377E425C58DE200F01DBA /* Controllers */,
+				7402214225784ED1006D43BE /* IextraClient */,
 				74022146257850A8006D43BE /* Models */,
-				7402212D2578261C006D43BE /* AppDelegate.swift */,
-				7402212F2578261C006D43BE /* SceneDelegate.swift */,
-				740221312578261C006D43BE /* ViewController.swift */,
-				740221332578261C006D43BE /* Main.storyboard */,
-				7402213625782620006D43BE /* Assets.xcassets */,
-				7402213825782620006D43BE /* LaunchScreen.storyboard */,
-				7402213B25782620006D43BE /* Info.plist */,
 			);
 			path = Stocks;
 			sourceTree = "<group>";
@@ -73,7 +76,8 @@
 		7402214225784ED1006D43BE /* IextraClient */ = {
 			isa = PBXGroup;
 			children = (
-				7402214325784F41006D43BE /* IextraClient.swift */,
+				7402214325784F41006D43BE /* StocksClient.swift */,
+				74F377DE25C4B62400F01DBA /* Client.swift */,
 			);
 			path = IextraClient;
 			sourceTree = "<group>";
@@ -81,9 +85,38 @@
 		74022146257850A8006D43BE /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				7402214225784ED1006D43BE /* IextraClient */,
+				74F377DB25C4B56A00F01DBA /* Stock.swift */,
+				74F377E125C4B9AE00F01DBA /* StockPreview.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		74F377E425C58DE200F01DBA /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				740221312578261C006D43BE /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		74F377E525C58DEF00F01DBA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				740221332578261C006D43BE /* Main.storyboard */,
+				7402213825782620006D43BE /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		74F377E625C58DFE00F01DBA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7402213B25782620006D43BE /* Info.plist */,
+				7402212D2578261C006D43BE /* AppDelegate.swift */,
+				7402212F2578261C006D43BE /* SceneDelegate.swift */,
+				7402213625782620006D43BE /* Assets.xcassets */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -157,8 +190,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				740221322578261C006D43BE /* ViewController.swift in Sources */,
+				74F377E225C4B9AF00F01DBA /* StockPreview.swift in Sources */,
 				7402212E2578261C006D43BE /* AppDelegate.swift in Sources */,
-				7402214425784F42006D43BE /* IextraClient.swift in Sources */,
+				74F377DF25C4B62400F01DBA /* Client.swift in Sources */,
+				7402214425784F42006D43BE /* StocksClient.swift in Sources */,
+				74F377DC25C4B56A00F01DBA /* Stock.swift in Sources */,
 				740221302578261C006D43BE /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -308,7 +344,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3VF2NCMJXG;
-				INFOPLIST_FILE = Stocks/Info.plist;
+				INFOPLIST_FILE = Stocks/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -327,7 +363,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3VF2NCMJXG;
-				INFOPLIST_FILE = Stocks/Info.plist;
+				INFOPLIST_FILE = Stocks/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
