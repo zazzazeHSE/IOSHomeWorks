@@ -37,6 +37,7 @@
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hc3-xt-lQc">
                                                     <rect key="frame" x="0.0" y="0.0" width="250" height="311"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="width" constant="250" id="EjY-b8-j2R"/>
                                                         <constraint firstAttribute="height" constant="311" id="VDr-Gi-shE"/>
                                                         <constraint firstAttribute="width" constant="250" id="kBu-sR-l8U"/>
                                                     </constraints>
@@ -52,6 +53,9 @@
                                                             </constraints>
                                                             <color key="tintColor" systemColor="systemRedColor"/>
                                                             <state key="normal" image="heart" catalog="system"/>
+                                                            <connections>
+                                                                <action selector="likeButtonTapped:" destination="vmd-EQ-g7o" eventType="touchUpInside" id="I3I-En-FfL"/>
+                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

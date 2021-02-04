@@ -60,25 +60,41 @@
 		7469E95025C42DCB005D3F58 /* CarouselApp */ = {
 			isa = PBXGroup;
 			children = (
+				746D277B25CC306000643452 /* Views */,
+				746D277925CC303600643452 /* Resources */,
 				7473BBA625C43B430080A5DE /* Models */,
-				7473BBA525C43B350080A5DE /* Views */,
-				7469E95125C42DCB005D3F58 /* AppDelegate.swift */,
-				7469E95325C42DCB005D3F58 /* SceneDelegate.swift */,
-				7469E95725C42DCB005D3F58 /* Main.storyboard */,
-				7469E95A25C42DD7005D3F58 /* Assets.xcassets */,
-				7469E95C25C42DD7005D3F58 /* LaunchScreen.storyboard */,
-				7469E95F25C42DD7005D3F58 /* Info.plist */,
+				7473BBA525C43B350080A5DE /* ViewControllers */,
 			);
 			path = CarouselApp;
 			sourceTree = "<group>";
 		};
-		7473BBA525C43B350080A5DE /* Views */ = {
+		746D277925CC303600643452 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7469E95125C42DCB005D3F58 /* AppDelegate.swift */,
+				7469E95325C42DCB005D3F58 /* SceneDelegate.swift */,
+				7469E95A25C42DD7005D3F58 /* Assets.xcassets */,
+				7469E95F25C42DD7005D3F58 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		746D277B25CC306000643452 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7473BBA225C438E00080A5DE /* TripCollectionViewCell.swift */,
+				7469E95725C42DCB005D3F58 /* Main.storyboard */,
+				7469E95C25C42DD7005D3F58 /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		7473BBA525C43B350080A5DE /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				7469E95525C42DCB005D3F58 /* ViewController.swift */,
-				7473BBA225C438E00080A5DE /* TripCollectionViewCell.swift */,
 			);
-			path = Views;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		7473BBA625C43B430080A5DE /* Models */ = {
@@ -312,7 +328,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3VF2NCMJXG;
-				INFOPLIST_FILE = CarouselApp/Info.plist;
+				INFOPLIST_FILE = CarouselApp/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -331,7 +347,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3VF2NCMJXG;
-				INFOPLIST_FILE = CarouselApp/Info.plist;
+				INFOPLIST_FILE = CarouselApp/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

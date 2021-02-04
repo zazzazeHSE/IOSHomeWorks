@@ -14,13 +14,26 @@ class TripCollectionViewCell: UICollectionViewCell {
     @IBOutlet var totalDaysLabel: UILabel!
     @IBOutlet var priceLabel: UILabel!
     @IBOutlet var likeButton: UIButton!
-    var isLiked: Bool = false{
-        didSet{
-            if isLiked{
+    
+    var isLiked: Bool = false {
+        didSet {
+            if isLiked {
                 likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
             } else {
                 likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
             }
         }
     }
+    
+    var delegate: TripCollectionCellDelegate?
+    
+    @IBAction func likeButtonTapped(_ sender: AnyObject) {
+        delegate?.didLikeButtonPressed(cell: self)
+    }
+}
+
+//MARK: - TripCollectionCellDelegate
+
+protocol TripCollectionCellDelegate {
+    func didLikeButtonPressed(cell: TripCollectionViewCell)
 }
