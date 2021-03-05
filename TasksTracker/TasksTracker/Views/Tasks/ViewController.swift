@@ -9,24 +9,74 @@ import UIKit
 import CoreData
 import WidgetKit
 import CoreDataFramework
+import Firebase
+import FirebaseAuth
+import FirebaseFirestore
+import Network
 
 class ViewController: UIViewController {
 
     var titleLabel = UILabel(frame: .zero)
     var addTaskButton = UIButton()
-    private let cellId = "cellId"
     var collection: UICollectionView!
-    var container = CoreDataStack.shared.managedObjectContext
-    var tasks = [Task]()
+    var refresher = UIRefreshControl(frame: .zero)
+    
+    
+    private var container = CoreDataStack.shared.managedObjectContext
+    private var tasks = [Task]()
+    private var tasksRep = FirestoreTasksRepository()
+    private let networkMonitor = NWPathMonitor()
+    private var isNetworkEnabled = true
+    private let cellId = "cellId"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "Background")
+        navigationController?.isNavigationBarHidden = true
+        CoreDataStack.shared.deleteAll()
+    
+        configureSubviews()
+        configureNetworkMonitor()
+        addAllSubviews()
+        initConstraints()
+        self.syncCoreDataWithFirebase()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        saveChanges()
+    }
+    
+    private func configureNetworkMonitor() {
+        let queue = DispatchQueue(label: "tasksQueue")
+        networkMonitor.pathUpdateHandler = { path in
+            DispatchQueue.main.async {
+                self.isNetworkEnabled = path.status == .satisfied
+            }
+        }
+        networkMonitor.start(queue: queue)
+    }
+    
+    private func configureSubviews() {
+        configureTitleLabel()
+        configureCollectionView()
+        configureAddTaskButton()
+    }
+    
+    private func addAllSubviews() {
+        view.addSubview(titleLabel)
+        view.addSubview(addTaskButton)
+        view.addSubview(collection)
+    }
+    
+    private func configureTitleLabel() {
         titleLabel.text = "Задачи"
         titleLabel.font = UIFont.boldSystemFont(ofSize: 34)
         titleLabel.textColor = UIColor(named: "TitleText")
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        
+    }
+    
+    private func configureCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -36,32 +86,18 @@ class ViewController: UIViewController {
         collection.delegate = self
         collection.backgroundColor = UIColor(named: "Background")
         collection.contentInset = UIEdgeInsets(top: 10, left: 5, bottom: 5, right: 10)
+        collection.alwaysBounceVertical = true
         
+        refresher.addTarget(self, action: #selector(loadSavedData), for: .valueChanged)
+        collection.addSubview(refresher)
+    }
+    
+    private func configureAddTaskButton() {
         addTaskButton.setImage(UIImage(systemName: "plus"), for: .normal)
         addTaskButton.translatesAutoresizingMaskIntoConstraints = false
         addTaskButton.frame.size = CGSize(width: 50, height: 50)
         addTaskButton.addTarget(self, action: #selector(openTaskViewController), for: .touchUpInside)
         addTaskButton.imageView?.contentMode = .scaleAspectFit
-        self.loadSavedData()
-        addSubviews()
-        initConstraints()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        saveChanges()
-    }
-    
-    private func addSubviews() {
-        view.addSubview(titleLabel)
-        view.addSubview(addTaskButton)
-        view.addSubview(collection)
-    }
-    
-    private func configureTitleLabel() {
-        titleLabel.text = "Задачи"
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 34)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
     }
 
     private func initConstraints() {
@@ -79,15 +115,99 @@ class ViewController: UIViewController {
             addTaskButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor)
         ])
     }
+    
+    private func syncCoreDataWithFirebase() {
+        DispatchQueue.main.async {
+            self.refresher.beginRefreshing()
+        }
+        self.loadDataFromCoreData()
+        let group = DispatchGroup()
+        for oldTask in self.tasks {
+            group.enter()
+            DispatchQueue.global().async {
+                switch oldTask.synchronizedStatus {
+                case .created:
+                    self.tasksRep.addTask(oldTask) { isSuccess, firebaseTask in
+                        guard let task = firebaseTask, isSuccess else {
+                            return
+                        }
+                        oldTask.synchronizedStatus = .synchronized
+                        oldTask.id = task.id
+                    }
+                    
+                    break
+                case .updated:
+                    self.tasksRep.updateTask(oldTask) { isSuccess in
+                        if isSuccess {
+                            oldTask.synchronizedStatus = .synchronized
+                        }
+                    }
+                    
+                    break
+                case .synchronized:
+                    break
+                }
+                
+                group.leave()
+            }
+        }
+        
+        group.wait()
+        
+        group.notify(queue: .main) {
+            self.saveChanges()
+            self.loadSavedData()
+        }
+    }
 
     
-    private func loadSavedData() {
+    @objc private func loadSavedData() {
+        
+        tasksRep.loadData { firebaseTasks in
+            self.loadDataFromCoreData()
+            guard let firebaseTasks = firebaseTasks else {
+                self.saveChanges()
+                self.loadDataFromCoreData()
+                DispatchQueue.main.async {
+                    self.refresher.endRefreshing()
+                    self.collection.reloadData()
+                }
+                return
+            }
+            self.loadDataFromCoreData()
+            for task in self.tasks {
+                self.deleteNotification(with: task.notificationIdentifier)
+            }
+            CoreDataStack.shared.deleteAll()
+            for firebaseTask in firebaseTasks {
+                let newTask = Task(context: self.container)
+                newTask.id = firebaseTask.id
+                newTask.title = firebaseTask.title
+                newTask.text = firebaseTask.text
+                newTask.deadlineDate = firebaseTask.deadlineDate
+                newTask.taskStatus = firebaseTask.taskStatus
+                newTask.synchronizedStatus = .synchronized
+                newTask.creationTime = firebaseTask.localCreationTime
+            }
+            self.saveChanges()
+            self.loadDataFromCoreData()
+            for task in self.tasks {
+                self.createNotificationRequestFor(task: task)
+            }
+            DispatchQueue.main.async {
+                self.refresher.endRefreshing()
+                self.collection.reloadData()
+            }
+        }
+    }
+    
+    private func loadDataFromCoreData() {
         let request = Task.createFetchRequest()
+        let sort = NSSortDescriptor(key: #keyPath(Task.creationTime), ascending: true)
+        request.sortDescriptors = [sort]
         do {
-            tasks = try container.fetch(request)
-            collection.reloadData()
+            self.tasks = try container.fetch(request)
         } catch {
-            print("Fetch failed")
         }
     }
     
@@ -112,11 +232,13 @@ class ViewController: UIViewController {
         tasksvc.currentTask = newTask
         tasksvc.dismissButton.setTitle("Добавить", for: .normal)
         tasksvc.dismissButton.addAction(UIAction { _ in
+            newTask.synchronizedStatus = .created
             newTask.taskStatus = .waiting
+            newTask.creationTime = Date()
             self.saveCurrent(newTask, title: tasksvc.titleTextField.text!, text: tasksvc.descriptionTextField.text!, date: tasksvc.datePicker.date)
-            tasksvc.dismiss(animated: true, completion: nil)
             self.saveChanges()
-            self.loadSavedData()
+            self.syncCoreDataWithFirebase()
+            tasksvc.dismiss(animated: true, completion: nil)
         }, for: .touchUpInside)
         self.present(tasksvc, animated: true, completion: nil)
     }
@@ -125,7 +247,6 @@ class ViewController: UIViewController {
         task.title = title
         task.text = text
         task.deadlineDate = date
-        task.taskStatus = .waiting
         if task.taskStatus != .completed {
             self.createNotificationRequestFor(task: task)
         }
@@ -192,9 +313,10 @@ extension ViewController: UICollectionViewDelegate {
         tasksvc.currentTask = selectedTask
         tasksvc.dismissButton.setTitle("Сохранить", for: .normal)
         tasksvc.dismissButton.addAction(UIAction { _ in
+            selectedTask.synchronizedStatus = .updated
             self.saveCurrent(selectedTask, title: tasksvc.titleTextField.text!, text: tasksvc.descriptionTextField.text!, date: tasksvc.datePicker.date)
             self.saveChanges()
-            self.loadSavedData()
+            self.syncCoreDataWithFirebase()
             tasksvc.dismiss(animated: true, completion: nil)
         }, for: .touchUpInside)
         self.present(tasksvc, animated: true, completion: nil)
@@ -210,14 +332,20 @@ extension ViewController: UICollectionViewDelegate {
                 newTask.text = copiedTask.text
                 newTask.taskStatus = copiedTask.taskStatus
                 newTask.deadlineDate = copiedTask.deadlineDate
+                newTask.synchronizedStatus = .created
+                newTask.creationTime = Date()
                 self.saveChanges()
-                self.loadSavedData()
+                self.syncCoreDataWithFirebase()
             }
             
             let deleteAction = UIAction(title: "Delete", image: UIImage(systemName: "trash"), attributes: UIMenuElement.Attributes.destructive) { value in
                 self.container.delete(self.tasks[indexPath.row])
-                self.saveChanges()
-                self.loadSavedData()
+                if self.isNetworkEnabled {
+                    self.tasksRep.removeTask(self.tasks[indexPath.row]) { isSuccess in
+                        self.saveChanges()
+                        self.syncCoreDataWithFirebase()
+                    }
+                }
             }
             
             return UIMenu(title: "", image: nil, children: [self.makeTaskStatusMenu(for: self.tasks[indexPath.row]), copyAction, deleteAction])
@@ -227,20 +355,23 @@ extension ViewController: UICollectionViewDelegate {
     private func makeTaskStatusMenu(for task: Task) -> UIMenu {
         let completedAction = UIAction(title: "Выполнена", identifier: UIAction.Identifier("0"), handler: { _ in
             task.taskStatus = .completed
+            task.synchronizedStatus = .updated
             self.saveChanges()
-            self.loadSavedData()
+            self.syncCoreDataWithFirebase()
         })
         
         let waitingAction = UIAction(title: "Ожидает", identifier: UIAction.Identifier("1"), handler: { _ in
             task.taskStatus = .waiting
+            task.synchronizedStatus = .updated
             self.saveChanges()
-            self.loadSavedData()
+            self.syncCoreDataWithFirebase()
         })
         
         let activeAction = UIAction(title: "В процессе", identifier: UIAction.Identifier("2"), handler: { _ in
             task.taskStatus = .active
+            task.synchronizedStatus = .updated
             self.saveChanges()
-            self.loadSavedData()
+            self.syncCoreDataWithFirebase()
         })
         
         return UIMenu(title: "Изменить статус", image: nil, options: .displayInline, children: [completedAction, waitingAction, activeAction])

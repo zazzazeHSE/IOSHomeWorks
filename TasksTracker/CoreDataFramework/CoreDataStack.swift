@@ -31,4 +31,14 @@ public class CoreDataStack {
         }
         return container
     }()
+    
+    public func deleteAll() {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Task")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        do {
+            try managedObjectContext.execute(deleteRequest)
+        } catch {
+            print(error)
+        }
+    }
 }

@@ -16,12 +16,14 @@ extension Task {
     @nonobjc public class func createFetchRequest() -> NSFetchRequest<Task> {
         return NSFetchRequest<Task>(entityName: "Task")
     }
-
+    @NSManaged public var id: String?
     @NSManaged public var title: String
     @NSManaged public var text: String
     @NSManaged public var deadlineDate: Date?
     @NSManaged public var notificationIdentifier: String?
     @NSManaged public var taskStatus: TaskStatus
+    @NSManaged public var synchronizedStatus: SynchronizationStatus
+    @NSManaged public var creationTime: Date?
     
     public func getStatusText() -> String {
         switch taskStatus {
@@ -54,8 +56,14 @@ extension Task {
 extension Task : Identifiable {
 }
 
-@objc public enum TaskStatus: Int32{
+@objc public enum TaskStatus: Int32, Codable{
     case active = 0
     case waiting = 1
     case completed = 2
+}
+
+@objc public enum SynchronizationStatus: Int32, Codable {
+    case created = 0
+    case updated = 1
+    case synchronized = 2
 }

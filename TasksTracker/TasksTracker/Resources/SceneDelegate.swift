@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -19,8 +20,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.windowScene = windowScene
-        let viewController = ViewController()
-        window?.rootViewController = viewController
+        let authViewController = AuthorizationViewController()
+        let navController = UINavigationController(rootViewController: authViewController)
+        navController.modalPresentationStyle = .overFullScreen
+        navController.setNavigationBarHidden(true, animated: false)
+        let tapBar = UITabBarController()
+        tapBar.viewControllers = [ViewController(), SettingsViewController()]
+        window?.rootViewController = navController
+        if Auth.auth().currentUser != nil {
+            let tapBar = TapBar()
+            navController.pushViewController(tapBar, animated: false)
+            tapBar.navigationController?.setNavigationBarHidden(true, animated: false)
+        }
         window?.makeKeyAndVisible()
     }
 
