@@ -1,0 +1,37 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'CoreDataFramework' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for CoreDataFramework
+end
+
+target 'TaskShareExtension' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for TaskShareExtension
+
+end
+
+
+target 'TaskWidgetExtension' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for TaskWidgetExtension
+end
+
+# add pods for desired Firebase products
+# https://firebase.google.com/docs/ios/setup#available-pods
+platform :ios, "9.0"
+use_frameworks!
+
+target 'TasksTracker' do
+ pod 'Firebase'
+ pod 'Firebase/Auth'
+ pod 'Firebase/Firestore'
+ pod 'FirebaseFirestoreSwift'
+end

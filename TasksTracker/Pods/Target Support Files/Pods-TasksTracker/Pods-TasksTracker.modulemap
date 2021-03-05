@@ -1,0 +1,6 @@
+framework module Pods_TasksTracker {
+  umbrella header "Pods-TasksTracker-umbrella.h"
+
+  export *
+  module * { export * }
+}

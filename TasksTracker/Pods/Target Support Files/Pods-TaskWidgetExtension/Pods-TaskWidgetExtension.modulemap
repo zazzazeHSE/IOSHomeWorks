@@ -1,0 +1,6 @@
+framework module Pods_TaskWidgetExtension {
+  umbrella header "Pods-TaskWidgetExtension-umbrella.h"
+
+  export *
+  module * { export * }
+}
