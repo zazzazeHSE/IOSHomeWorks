@@ -33,7 +33,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "Background")
         navigationController?.isNavigationBarHidden = true
-        CoreDataStack.shared.deleteAll()
     
         configureSubviews()
         configureNetworkMonitor()

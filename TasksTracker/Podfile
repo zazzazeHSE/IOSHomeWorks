@@ -8,14 +8,6 @@ target 'CoreDataFramework' do
   # Pods for CoreDataFramework
 end
 
-target 'TaskShareExtension' do
-  # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
-
-  # Pods for TaskShareExtension
-
-end
-
 
 target 'TaskWidgetExtension' do
   # Comment the next line if you don't want to use dynamic frameworks
